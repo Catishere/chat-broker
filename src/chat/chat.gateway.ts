@@ -4,10 +4,9 @@ import {
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
-  WebSocketServer,
   WsException,
 } from '@nestjs/websockets';
-import { Server, Socket } from 'socket.io';
+import { Socket } from 'socket.io';
 import { MessageDto } from './dto/message.dto';
 import { RoomDto } from './dto/room.dto';
 import { getRoomId } from './utils/string.util';
@@ -35,6 +34,8 @@ export class ChatGateway implements OnGatewayDisconnect {
   ): Promise<boolean> {
     if (data.oldRoomId) {
       await client.leave(getRoomId(data.serverName, data.oldRoomId));
+    } else {
+      console.log(`User ${client.id} joined server ${data.serverName}`);
     }
     await client.join(getRoomId(data.serverName, data.newRoomId));
     return true;
@@ -52,6 +53,6 @@ export class ChatGateway implements OnGatewayDisconnect {
   }
 
   handleDisconnect(client: Socket) {
-    console.log(`Cleanup for user: ${client.id}`);
+    console.log(`User ${client.id} left`);
   }
 }
