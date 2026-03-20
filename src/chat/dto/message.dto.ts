@@ -1,21 +1,23 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-// chat/dto/create-message.dto.ts
-import { IsString, MinLength, MaxLength, IsNumber } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  MaxLength,
+  MinLength,
+} from 'class-validator';
 
 export class MessageDto {
   @IsString()
-  @MinLength(1)
-  @MaxLength(16)
+  @MinLength(3)
+  @MaxLength(32)
+  @IsNotEmpty()
   serverName: string;
-
   @IsNumber()
   roomId: number;
-
   @IsNumber()
   userId: number;
-
   @IsString()
   @MinLength(1)
-  @MaxLength(128)
+  @MaxLength(64)
   message: string;
 }
