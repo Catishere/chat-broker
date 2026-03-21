@@ -48,7 +48,7 @@ export class ChatGateway implements OnGatewayDisconnect {
   ): boolean {
     client.broadcast
       .to(getRoomId(data.serverName, data.roomId))
-      .emit('message', data.message);
+      .emit('message', { message: data.message, userId: data.userId });
     console.log(
       `User ${data.userId} sent message to server ${data.serverName} room ${data.roomId}: ${data.message}`,
     );
